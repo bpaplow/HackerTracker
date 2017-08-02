@@ -27,7 +27,6 @@ class ActivityNavRenderer : Renderer<Navigation>(), View.OnClickListener {
 
 
     override fun onClick(view: View) {
-        // TODO Use the class to handle multiple location.
         (context as TabHomeActivity).loadFragment(content.fragment)
     }
 }
