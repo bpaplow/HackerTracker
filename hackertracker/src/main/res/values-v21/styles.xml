@@ -9,5 +9,8 @@
 
         <item name="android:dialogTheme">@style/MyAlertDialogStyle</item>
         <item name="android:alertDialogTheme">@style/MyAlertDialogStyle</item>
+        <item name="android:buttonStyle">@style/buttonStyle</item>
+
     </style>
+
 </resources>
