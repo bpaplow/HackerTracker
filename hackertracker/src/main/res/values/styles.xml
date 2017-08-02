@@ -9,11 +9,8 @@
         <item name="checkBoxPreferenceStyle">@style/Preference.CheckBoxPreference</item>
         <item name="switchPreferenceCompatStyle">@style/Preference.SwitchPreferenceCompat</item>
         <item name="dialogPreferenceStyle">@style/Preference.DialogPreference</item>
-        <item name="editTextPreferenceStyle">@style/Preference.DialogPreference.EditTextPreference
-        </item>
+        <item name="editTextPreferenceStyle">@style/Preference.DialogPreference.EditTextPreference</item>
         <item name="preferenceFragmentListStyle">@style/PreferenceFragmentList</item>
-
-
     </style>
 
     <style name="PreferenceScreen" parent="MyMaterialTheme.Base">
@@ -33,6 +30,7 @@
         <item name="preferenceTheme">@style/Theme.WtfPreference</item>
 
         <item name="android:checkboxStyle">@style/checkBoxStyle</item>
+        <item name="android:buttonStyle">@style/buttonStyle</item>
 
         <!-- Preferences-->
         <item name="android:textColorPrimary">@color/white</item>
@@ -119,7 +117,6 @@
     </style>
 
 
-
     <!-- Generic Dialog Theme -->
     <style name="AppCompatDialog" parent="Theme.AppCompat.Dialog">
         <!-- Used for the title and text -->
@@ -161,4 +158,10 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <style name="buttonStyle" parent="@android:style/Widget.Holo.Button">
+
+    </style>
+
+
 </resources>
