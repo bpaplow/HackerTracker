@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.pedrogomez.renderers.RendererAdapter
 import com.pedrogomez.renderers.RendererBuilder
 import com.pedrogomez.renderers.RendererContent
+import com.shortstack.hackertracker.Activity.TabHomeActivity
 import com.shortstack.hackertracker.Application.App
 import com.shortstack.hackertracker.Model.Item
 import com.shortstack.hackertracker.Model.Navigation
@@ -83,7 +84,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun addHelpNavigation() {
-        adapter?.add(Navigation(getString(R.string.nav_help_title), getString(R.string.nav_help_body), InformationFragment::class.java))
+        adapter?.add(Navigation(getString(R.string.nav_help_title), getString(R.string.nav_help_body), TabHomeActivity.NAV_INFORMATION ))
+        adapter?.add(Navigation("Wifi Help", "Click to get connected to DEFCON's secure Wifi.", TabHomeActivity.NAV_WIFI ))
+
     }
 
     private fun addHeader() {

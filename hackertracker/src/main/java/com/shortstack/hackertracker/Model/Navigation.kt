@@ -1,3 +1,3 @@
 package com.shortstack.hackertracker.Model
 
-class Navigation(val title: String, val description: String, val activity: Class<*>)
+class Navigation(val title: String, val description: String, val fragment: Int )
