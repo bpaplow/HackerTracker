@@ -87,6 +87,8 @@ class TabHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     }
 
     private fun forceMenuHighlighted() {
+        if( mFragmentIndex >= nav_view.menu.size() ) return
+
         nav_view!!.menu.getItem(mFragmentIndex).isChecked = true
     }
 
@@ -156,6 +158,8 @@ class TabHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 
                 NAV_SETTINGS -> AnalyticsController.Analytics.FRAGMENT_SETTINGS
 
+                NAV_WIFI -> AnalyticsController.Analytics.FRAGMENT_WIFI
+
                 else -> throw IllegalStateException("Could not locale the correct fragment from index $mFragmentIndex.")
             }
         }
@@ -178,6 +182,8 @@ class TabHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 NAV_VENDORS -> VendorsFragment.newInstance()
 
                 NAV_SETTINGS -> SettingsFragment.newInstance()
+
+                NAV_WIFI -> WifiFragment.newInstance()
 
                 else -> throw IllegalStateException("Could not locate the correct fragment for index $mFragmentIndex.")
             }
@@ -267,5 +273,7 @@ class TabHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         val NAV_INFORMATION = 3
         val NAV_VENDORS = 4
         val NAV_SETTINGS = 5
+
+        val NAV_WIFI = 6
     }
 }

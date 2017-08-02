@@ -202,6 +202,7 @@ Any news and info will likely be posted there.</item>
         <item>@string/information</item>
         <item>@string/partners_vendors</item>
         <item>@string/settings</item>
+        <item>@string/wifi</item>
     </string-array>
 
     <string-array name="badge_information">
