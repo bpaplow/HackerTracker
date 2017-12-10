@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'maven'
 apply plugin: 'io.fabric'
 
@@ -37,10 +36,11 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    kapt { generateStubs = true }
 }
 
 configurations {
-   // compile.exclude group: "org.apache.httpcomponents", module: "httpclient"
+   // compile.exclude group: "org.anpache.httpcomponents", module: "httpclient"
 }
 
 dependencies {
@@ -84,9 +84,9 @@ dependencies {
     compile 'com.firebase:firebase-jobdispatcher:0.7.0'
 
     // Room
-    compile 'android.arch.persistence.room:runtime:1.0.0-alpha1'
-    compile 'android.arch.persistence.room:rxjava2:1.0.0-alpha1'
-    kapt "android.arch.persistence.room:compiler:1.0.0-alpha1"
+    compile 'android.arch.persistence.room:runtime:1.0.0-alpha4'
+    compile 'android.arch.persistence.room:rxjava2:1.0.0-alpha4'
+    kapt "android.arch.persistence.room:compiler:1.0.0-alpha4"
 
     // RxJava
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
