@@ -17,7 +17,6 @@ import com.shortstack.hackertracker.Alert.MaterialAlert
 import com.shortstack.hackertracker.Application.App
 import com.shortstack.hackertracker.Common.Constants
 import com.shortstack.hackertracker.Event.RefreshTimerEvent
-import com.shortstack.hackertracker.Event.SyncResponseEvent
 import com.shortstack.hackertracker.Event.UpdateListContentsEvent
 import com.shortstack.hackertracker.List.ListViewsInterface
 import com.shortstack.hackertracker.List.ScheduleInfiniteScrollListener
@@ -170,7 +169,7 @@ class ScheduleFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ListV
 
 
     override fun onRefresh() {
-        val service = DatabaseService.create(App.application.databaseController.databaseName)
+        val service = DatabaseService.create("DEFCON25")
 
         val syncRepository = SyncRepository(service)
         syncRepository.getSchedule()
@@ -193,19 +192,19 @@ class ScheduleFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ListV
     }
 
     private fun onRefreshUpdate(it : FullResponse) {
-        App.application.databaseController.update(response = it).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    swipe_refresh?.isRefreshing = false
-
-                    if (it == 0)
-                        Toast.makeText(context, context.getString(R.string.msg_up_to_date), Toast.LENGTH_SHORT).show()
-                    else if (it > 0) {
-                        App.application.postBusEvent(SyncResponseEvent(it))
-                        App.application.notificationHelper.scheduleUpdateNotification(it)
-                        refreshContents()
-                    }
-                }
+//        App.application.databaseController.createDatabase(response = it).subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe {
+//                    swipe_refresh?.isRefreshing = false
+//
+//                    if (it == 0)
+//                        Toast.makeText(context, context.getString(R.string.msg_up_to_date), Toast.LENGTH_SHORT).show()
+//                    else if (it > 0) {
+//                        App.application.postBusEvent(SyncResponseEvent(it))
+//                        App.application.notificationHelper.scheduleUpdateNotification(it)
+//                        refreshContents()
+//                    }
+//                }
     }
 
 

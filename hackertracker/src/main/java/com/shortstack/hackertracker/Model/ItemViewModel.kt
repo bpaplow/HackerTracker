@@ -8,9 +8,8 @@ import com.shortstack.hackertracker.R
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.regex.Pattern
 
-class ItemViewModel(val item : Item) {
+class ItemViewModel(val item : ScheduleItem) {
 
 
     val title : String
@@ -34,63 +33,46 @@ class ItemViewModel(val item : Item) {
             if (TextUtils.isEmpty(item.type))
                 return EMPTY_CATEGORY
 
-            val types = App.application.databaseController.types
+//            val types = App.application.databaseController.types
 
-            for (i in types.indices) {
-                if (item.type == types[i].type)
-                    return i
-            }
+//            for (i in types.indices) {
+//                if (item.type == types[i].type)
+//                    return i
+//            }
 
             return EMPTY_CATEGORY
         }
 
 
-    fun getTimeStamp(context : Context) : String {
-        // No start time, return TBA.
-        if (TextUtils.isEmpty(item.begin))
-            return context.resources.getString(R.string.tba)
-
-        var time = ""
-
-        if (App.application.storage.shouldShowMilitaryTime()) {
-            time = item.begin!!
-        } else {
-            val date = item.beginDateObject
-            if (date != null) {
-                val writeFormat = SimpleDateFormat("h:mm aa")
-                time = writeFormat.format(date)
-            }
-        }
-
-        return time
-    }
-
 
     val progress : Float
         get() {
-            if (!item.hasBegin())
-                return 0f
-
-            val beginDateObject = item.beginDateObject
-            val endDateObject = item.endDateObject
-            val currentDate = App.getCurrentDate()
-
-            val length = ((endDateObject.time - beginDateObject.time) / 1000 / 60).toFloat()
-            val p = ((endDateObject.time - currentDate.time) / 1000 / 60).toFloat()
-
-            if (p == 0f)
-                return 1f
-
-            val l = p / length
-
-            return Math.min(1.0f, 1 - l)
+            return 0f
+//            if (!item.hasBegin())
+//                return 0f
+//
+//            val beginDateObject = item.beginDateObject
+//            val endDateObject = item.endDateObject
+//            val currentDate = App.getCurrentDate()
+//
+//            val length = ((endDateObject.time - beginDateObject.time) / 1000 / 60).toFloat()
+//            val p = ((endDateObject.time - currentDate.time) / 1000 / 60).toFloat()
+//
+//            if (p == 0f)
+//                return 1f
+//
+//            val l = p / length
+//
+//            return Math.min(1.0f, 1 - l)
         }
 
     fun getFullTimeStamp(context : Context) : String {
-        val begin = item.beginDateObject
-        val end = item.endDateObject
+//        val begin = item.beginDateObject
+//        val end = item.endDateObject
+//
+//        return String.format(context.getString(R.string.timestamp_full), item.dateStamp, getTimeStamp(context, begin), getTimeStamp(context, end))
 
-        return String.format(context.getString(R.string.timestamp_full), item.dateStamp, getTimeStamp(context, begin), getTimeStamp(context, end))
+        return "TBA"
     }
 
 
@@ -105,40 +87,6 @@ class ItemViewModel(val item : Item) {
         return !TextUtils.isEmpty(item.link)
     }
 
-    val prettyUrl : String
-        get() {
-            var url = item.link!!.toLowerCase()
-
-            var index : Int
-
-
-            if (url.startsWith("http://") || url.startsWith("https://")) {
-                index = url.indexOf("//")
-                url = url.substring(index + 2)
-            }
-
-            index = url.indexOf("www.")
-            if (index > 0)
-                url = url.substring(index)
-
-            index = url.indexOf("/")
-            if (index > 1) {
-
-                val p = Pattern.compile("[\\./?]")
-                val m = p.matcher(url.substring(index + 1))
-
-                if (m.find()) {
-                    url = url.substring(0, index + m.start() + 1)
-                }
-            }
-
-            if (url.length < item.link.length) {
-                url = url + "..."
-            }
-
-
-            return url
-        }
 
     fun getDetailsDescription(context : Context) : String {
         var result = ""
@@ -156,23 +104,27 @@ class ItemViewModel(val item : Item) {
     val location : String
         get() = item.location ?: ""
 
-    val id : Int
+    val id : Long
         get() = item.index
 
     val toolsVisibility : Int
         get() = if (item.isTool) View.VISIBLE else View.GONE
+//        get() = View.VISIBLE
 
     val exploitVisibility : Int
         get() = if (item.isExploit) View.VISIBLE else View.GONE
+//        get() = View.VISIBLE
 
     val demoVisibility : Int
         get() = if (item.isDemo) View.VISIBLE else View.GONE
+//        get() = View.VISIBLE
 
     val bookmarkVisibility : Int
-        get() = if (item.isBookmarked()) View.VISIBLE else View.INVISIBLE
+        get() = if (item.isBookmarked) View.VISIBLE else View.INVISIBLE
+//        get() = View.VISIBLE
 
-    val speakers : Array<Speaker>
-        get() = item.speakers!!
+//    val speakers : Array<Speaker>
+//        get() = item.speakers!!
 
     companion object {
 

@@ -1,16 +1,16 @@
 package com.shortstack.hackertracker.View
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.support.v4.widget.CompoundButtonCompat
 import android.support.v7.widget.AppCompatCheckBox
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
-import butterknife.ButterKnife
+import com.orhanobut.logger.Logger
 import com.shortstack.hackertracker.Application.App
 import com.shortstack.hackertracker.Model.Filter
 import com.shortstack.hackertracker.R
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.alert_filter.view.*
 import java.util.*
 
@@ -24,17 +24,17 @@ class FilterView : LinearLayout {
 
     constructor(context : Context, filter : Filter) : super(context) {
         init()
-        setFilter(filter)
     }
 
-    private fun setFilter(filter : Filter) {
-        val typesArray = filter.typesArray
+    private fun setFilter(filter : Filter? = null) {
+        val typesArray = filter?.typesArray ?: return
 
-        if (typesArray.size == 0) {
+        if (typesArray.isEmpty()) {
             for (type in checkboxes) {
                 type.isChecked = true
             }
         }
+
 
         for (aTypesArray in typesArray) {
             for (i1 in checkboxes.indices) {
@@ -55,29 +55,44 @@ class FilterView : LinearLayout {
 
     private fun init() {
         View.inflate(context, R.layout.alert_filter, this)
-        ButterKnife.bind(this)
 
-        val controller = App.application.databaseController
-        val types = controller.types
+        val time = System.currentTimeMillis()
 
-        val stringArray = context.resources.getIntArray(R.array.colors)
+        Logger.d("Starting filter view! ")
 
-        val states = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf())
+        App.application.database.apply {
+            typeDao().getTypes()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { types ->
 
-        checkboxes = Array(types.size, {
-            val type = types[it]
+                        Logger.d("Got types in ${System.currentTimeMillis() - time}ms.")
 
-            val box = AppCompatCheckBox(context)
-            box.text = type.type
-            CompoundButtonCompat.setButtonTintList(box, ColorStateList(states, intArrayOf(stringArray[it], stringArray[it])))
+                        val colours = context.resources.getIntArray(R.array.colors)
 
-            if (it <= types.size / 2)
-                filter_left.addView(box)
-            else
-                filter_right.addView(box)
+                        val states = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf())
 
-            box
-        })
+                        Logger.d("Setup ${System.currentTimeMillis() - time}")
+
+
+                        checkboxes = Array(types.size, {
+                            AppCompatCheckBox(context)
+                        })
+
+                        Logger.d("Created checkboxes ${System.currentTimeMillis() - time}")
+                        checkboxes.forEachIndexed { index, box ->
+                            if (index <= types.size / 2)
+                                filter_left.addView(box)
+                            else
+                                filter_right.addView(box)
+                        }
+
+                        Logger.d("Setting filter ${System.currentTimeMillis() - time}")
+
+                        //setFilter(null)
+
+                    }
+        }
     }
 
     fun save() : Filter {

@@ -1,6 +1,7 @@
 package com.shortstack.hackertracker.Application
 
 import android.app.Application
+import android.arch.persistence.room.Room
 import android.content.Context
 import android.preference.PreferenceManager
 import com.crashlytics.android.Crashlytics
@@ -16,17 +17,19 @@ import com.orhanobut.logger.Logger
 import com.shortstack.hackertracker.Analytics.AnalyticsController
 import com.shortstack.hackertracker.BuildConfig
 import com.shortstack.hackertracker.Common.Constants
-import com.shortstack.hackertracker.Database.DEFCONDatabaseController
 import com.shortstack.hackertracker.Event.MainThreadBus
 import com.shortstack.hackertracker.R
 import com.shortstack.hackertracker.Task.SyncJob
 import com.shortstack.hackertracker.Utils.NotificationHelper
 import com.shortstack.hackertracker.Utils.SharedPreferencesUtil
 import com.shortstack.hackertracker.Utils.TimeHelper
+import com.shortstack.hackertracker.database.MyDatabase
 import com.squareup.otto.Bus
 import io.fabric.sdk.android.Fabric
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.*
-
 
 
 class App : Application() {
@@ -38,8 +41,6 @@ class App : Application() {
     val bus : Bus by lazy { MainThreadBus() }
     // Storage
     val storage : SharedPreferencesUtil by lazy { SharedPreferencesUtil() }
-    // Database
-    lateinit var databaseController : DEFCONDatabaseController
     // Notifications
     val notificationHelper : NotificationHelper by lazy { NotificationHelper(appContext) }
     // Analytics
@@ -52,6 +53,9 @@ class App : Application() {
     val dispatcher : FirebaseJobDispatcher by lazy { FirebaseJobDispatcher(GooglePlayDriver(appContext)) }
 
 
+    lateinit var database : MyDatabase
+
+
     override fun onCreate() {
         super.onCreate()
 
@@ -60,12 +64,22 @@ class App : Application() {
         initLogger()
         initFeedback()
 
-        updateDatabaseController()
+//        updateDatabaseController()
 
         if (!storage.isSyncScheduled) {
             storage.setSyncScheduled()
             scheduleSync()
         }
+
+        database = Room.databaseBuilder(this, MyDatabase::class.java, "database-name").build()
+
+        Single.fromCallable {
+            database.createDatabase()
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+
+
     }
 
     fun updateDatabaseController() {
@@ -73,11 +87,11 @@ class App : Application() {
         setTheme(if (storage.databaseSelected == 0) R.style.AppTheme else R.style.AppTheme_Toorcon)
 
         Logger.d("Creating database controller with database: $name")
-        databaseController = DEFCONDatabaseController(appContext, name = name)
-
-        if (databaseController.exists()) {
-            databaseController.checkDatabase()
-        }
+//        databaseController = DEFCONDatabaseController(appContext, name = name)
+//
+//        if (databaseController.exists()) {
+//            databaseController.checkDatabase()
+//        }
     }
 
 
@@ -161,12 +175,4 @@ class App : Application() {
 
 
     }
-
-
-    object Storage {
-        fun getStorage() : SharedPreferencesUtil {
-            return SharedPreferencesUtil()
-        }
-    }
-
 }

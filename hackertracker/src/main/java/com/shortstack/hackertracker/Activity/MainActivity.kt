@@ -20,13 +20,9 @@ import com.shortstack.hackertracker.Alert.MaterialAlert
 import com.shortstack.hackertracker.Analytics.AnalyticsController
 import com.shortstack.hackertracker.Application.App
 import com.shortstack.hackertracker.BottomSheet.ReviewBottomSheetDialogFragment
-import com.shortstack.hackertracker.BottomSheet.ScheduleItemBottomSheetDialogFragment
-import com.shortstack.hackertracker.Common.Constants
-import com.shortstack.hackertracker.Database.DatabaseController
 import com.shortstack.hackertracker.Fragment.*
 import com.shortstack.hackertracker.Model.Filter
 import com.shortstack.hackertracker.R
-
 import com.shortstack.hackertracker.home.HomeFragment
 import com.shortstack.hackertracker.replaceFragment
 import com.shortstack.hackertracker.vendors.VendorsFragment
@@ -44,11 +40,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (!DatabaseController.exists(this, App.application.databaseController.databaseName)) {
-            startActivity(Intent(this, SplashActivity::class.java))
-            finish()
-            return
-        }
+//        if (!DatabaseController.exists(this, App.application.databaseController.databaseName)) {
+//            startActivity(Intent(this, SplashActivity::class.java))
+//            finish()
+//            return
+//        }
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -92,11 +88,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (target == 0)
             return
 
-        val item = App.application.databaseController.findItem(id = target)
-        if (item != null) {
-            val fragment = ScheduleItemBottomSheetDialogFragment.newInstance(item)
-            fragment.show(supportFragmentManager, fragment.tag)
-        }
+//        val item = App.application.databaseController.findItem(id = target)
+//        if (item != null) {
+//            val fragment = ScheduleItemBottomSheetDialogFragment.newInstance(item)
+//            fragment.show(supportFragmentManager, fragment.tag)
+//        }
     }
 
     private fun forceMenuHighlighted() {
@@ -231,9 +227,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view!!.setNavigationItemSelectedListener(this)
-        if (App.application.databaseController.databaseName == Constants.TOORCON_DATABASE_NAME) {
-            nav_view.menu.removeItem(R.id.nav_information)
-        }
+//        if (App.application.databaseController.databaseName == Constants.TOORCON_DATABASE_NAME) {
+//            nav_view.menu.removeItem(R.id.nav_information)
+//        }
 
     }
 

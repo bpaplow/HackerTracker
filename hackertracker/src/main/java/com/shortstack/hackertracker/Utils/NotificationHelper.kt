@@ -129,10 +129,10 @@ class NotificationHelper(private val mContext: Context) {
 
 
     fun postNotification(id: Int) {
-        val item = App.application.databaseController.findItem(id = id) ?: return
+//        val item = App.application.databaseController.findItem(id = id) ?: return
 
-        val managerCompat = NotificationManagerCompat.from(mContext)
-        managerCompat.notify(id, getItemNotification(item))
+//        val managerCompat = NotificationManagerCompat.from(mContext)
+//        managerCompat.notify(id, getItemNotification(item))
     }
 
     companion object {

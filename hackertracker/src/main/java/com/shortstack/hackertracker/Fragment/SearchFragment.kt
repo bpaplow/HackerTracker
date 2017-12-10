@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import com.orhanobut.logger.Logger
 import com.pedrogomez.renderers.RendererAdapter
 import com.pedrogomez.renderers.RendererBuilder
-import com.shortstack.hackertracker.Application.App
 import com.shortstack.hackertracker.Model.Item
 import com.shortstack.hackertracker.R
 import com.shortstack.hackertracker.Renderer.ItemRenderer
@@ -61,7 +60,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         }
 
         val timeMillis = System.currentTimeMillis()
-        adapter!!.addAll(App.application.databaseController.findByText(text))
+//        adapter!!.addAll(App.application.databaseController.findByText(text))
         Logger.d("Time to search: ${System.currentTimeMillis() - timeMillis}ms" )
         adapter!!.notifyDataSetChanged()
     }

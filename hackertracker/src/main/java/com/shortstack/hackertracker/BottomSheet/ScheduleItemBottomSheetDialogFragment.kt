@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
@@ -13,17 +12,12 @@ import android.support.v7.widget.LinearLayoutCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.shortstack.hackertracker.Activity.ItemActivity
 import com.shortstack.hackertracker.Alert.MaterialAlert
-import com.shortstack.hackertracker.Analytics.AnalyticsController
-import com.shortstack.hackertracker.Application.App
 import com.shortstack.hackertracker.Fragment.InformationFragment
-import com.shortstack.hackertracker.Model.Item
 import com.shortstack.hackertracker.Model.ItemViewModel
+import com.shortstack.hackertracker.Model.ScheduleItem
 import com.shortstack.hackertracker.R
 import com.shortstack.hackertracker.View.ItemView
-import com.shortstack.hackertracker.View.SpeakerView
-import kotlinx.android.synthetic.main.bottom_sheet_schedule_item.*
 import kotlinx.android.synthetic.main.bottom_sheet_schedule_item.view.*
 import kotlinx.android.synthetic.main.empty_text.view.*
 
@@ -36,7 +30,7 @@ class ScheduleItemBottomSheetDialogFragment : android.support.design.widget.Bott
 
         val obj = ItemViewModel(content)
 
-        App.application.analyticsController.tagItemEvent(AnalyticsController.Analytics.EVENT_VIEW, content)
+//        App.application.analyticsController.tagItemEvent(AnalyticsController.Analytics.EVENT_VIEW, content)
 
         view.item!!.setItem(obj.item)
 
@@ -57,27 +51,16 @@ class ScheduleItemBottomSheetDialogFragment : android.support.design.widget.Bott
 
     }
 
-    private fun initViewPager(obj : ItemViewModel, view : View) {
-        val color = resources.getIntArray(R.array.colors) [obj.categoryColorPosition]
-        view.tab_layout.setBackgroundColor(color)
 
-        val adapter = ItemActivity.PagerAdapter(activity.supportFragmentManager, content)
-        view.pager.adapter = adapter
-
-
-        view.tab_layout.addTab(view.tab_layout.newTab().setText("Description"))
-        view.tab_layout.addTab(view.tab_layout.newTab().setText("Author"))
-        view.tab_layout.tabGravity = TabLayout.GRAVITY_FILL
-    }
 
     private fun displaySpeakers(obj : ItemViewModel, speakers : LinearLayoutCompat) {
-        obj.speakers.iterator().forEach {
-            speakers.addView(SpeakerView(context, App.application.databaseController.getSpeaker(it)))
-        }
+//        obj.speakers.iterator().forEach {
+//            speakers.addView(SpeakerView(context, App.application.databaseController.getSpeaker(it)))
+//        }
     }
 
-    private val content : Item
-        get() = arguments.getSerializable(ARG_OBJ) as Item
+    private val content : ScheduleItem
+        get() = arguments.getSerializable(ARG_OBJ) as ScheduleItem
 
     private fun displayDescription(obj : ItemViewModel, description : TextView, empty : View, link : View, star : ImageView) {
         val hasDescription = obj.hasDescription()
@@ -92,26 +75,26 @@ class ScheduleItemBottomSheetDialogFragment : android.support.design.widget.Bott
     }
 
     private fun updateStarIcon(star : ImageView) {
-        star.setImageDrawable(resources.getDrawable(if (content.isBookmarked()) R.drawable.ic_star_white_24dp else R.drawable.ic_star_border_white_24dp))
+//        star.setImageDrawable(resources.getDrawable(if (content.isBookmarked()) R.drawable.ic_star_white_24dp else R.drawable.ic_star_border_white_24dp))
     }
 
     fun onStarClick(item : ItemView, star : ImageView) {
-        if (content.isBookmarked()) {
-            App.application.analyticsController.tagItemEvent(AnalyticsController.Analytics.EVENT_UNBOOKMARK, content)
-        } else {
-            App.application.analyticsController.tagItemEvent(AnalyticsController.Analytics.EVENT_BOOKMARK, content)
-        }
+//        if (content.isBookmarked()) {
+//            App.application.analyticsController.tagItemEvent(AnalyticsController.Analytics.EVENT_UNBOOKMARK, content)
+//        } else {
+//            App.application.analyticsController.tagItemEvent(AnalyticsController.Analytics.EVENT_BOOKMARK, content)
+//        }
         item.onBookmarkClick()
         updateStarIcon(star)
     }
 
     fun onShareClick(item : ItemView) {
-        App.application.analyticsController.tagItemEvent(AnalyticsController.Analytics.EVENT_SHARE, content)
+//        App.application.analyticsController.tagItemEvent(AnalyticsController.Analytics.EVENT_SHARE, content)
         item.onShareClick()
     }
 
     fun onLinkClick() {
-        App.application.analyticsController.tagItemEvent(AnalyticsController.Analytics.EVENT_LINK, content)
+//        App.application.analyticsController.tagItemEvent(AnalyticsController.Analytics.EVENT_LINK, content)
 
         MaterialAlert.create(context)
                 .setTitle(R.string.link_warning)
@@ -129,7 +112,7 @@ class ScheduleItemBottomSheetDialogFragment : android.support.design.widget.Bott
         val ARG_OBJ = "ITEM"
 
 
-        fun newInstance(obj : Item) : ScheduleItemBottomSheetDialogFragment {
+        fun newInstance(obj : ScheduleItem) : ScheduleItemBottomSheetDialogFragment {
             val fragment = ScheduleItemBottomSheetDialogFragment()
 
             val bundle = Bundle()

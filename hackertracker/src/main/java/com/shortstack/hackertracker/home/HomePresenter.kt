@@ -6,8 +6,6 @@ import com.shortstack.hackertracker.Application.App
 import com.shortstack.hackertracker.Fragment.InformationFragment
 import com.shortstack.hackertracker.Model.Navigation
 import com.shortstack.hackertracker.R
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,26 +27,26 @@ class HomePresenter(private val context : Context, private val view : HomeContra
 
 
         // TODO: This should use DI.
-        App.application.databaseController.getRecent()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    view.setProgressIndicator(false)
-
-                    // TODO: This could be a lot clearer.
-                    view.addAdapterItem(getHeader())
-                    view.addAdapterItem(getInformationNav())
-                    view.addAdapterItem(getChangeConCard())
-
-                    view.showLastSyncTimestamp(getLastSyncTimestamp())
-
-                    view.showRecentUpdates(it.toTypedArray())
-                }, {
-                    if (view.isActive()) {
-                        view.setProgressIndicator(false)
-                        view.showLoadingRecentUpdatesError()
-                    }
-                })
+//        App.application.databaseController.getRecent()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe({
+//                    view.setProgressIndicator(false)
+//
+//                    // TODO: This could be a lot clearer.
+//                    view.addAdapterItem(getHeader())
+//                    view.addAdapterItem(getInformationNav())
+//                    view.addAdapterItem(getChangeConCard())
+//
+//                    view.showLastSyncTimestamp(getLastSyncTimestamp())
+//
+//                    view.showRecentUpdates(it.toTypedArray())
+//                }, {
+//                    if (view.isActive()) {
+//                        view.setProgressIndicator(false)
+//                        view.showLoadingRecentUpdatesError()
+//                    }
+//                })
 
     }
 

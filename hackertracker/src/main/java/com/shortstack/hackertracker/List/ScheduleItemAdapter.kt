@@ -1,7 +1,6 @@
 package com.shortstack.hackertracker.List
 
 import android.support.v7.widget.RecyclerView
-import com.orhanobut.logger.Logger
 import com.pedrogomez.renderers.RendererAdapter
 import com.shortstack.hackertracker.Application.App
 import com.shortstack.hackertracker.Model.Day
@@ -23,25 +22,23 @@ class ScheduleItemAdapter(private val listViews : ListViewsInterface,
     fun load(page : Int = 0) {
         val app = App.application
         val filter = app.storage.filter
+//
+        App.application.database.apply {
+            scheduleItemDao()
+                    .getFullSchedule()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        addAllAndNotify(it)
+                        if (app.storage.showExpiredEvents()) {
+                            scrollToCurrentTime()
+                        }
+                        if (collection.isEmpty()) {
+                            listViews.showEmptyView()
+                        }
+                    }
 
-        app.databaseController.getItems(*filter.typesArray, page = page)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        {
-                            addAllAndNotify(it)
-                            if (app.storage.showExpiredEvents()) {
-                                scrollToCurrentTime()
-                            }
-                            if(collection.isEmpty()) {
-                                listViews.showEmptyView()
-                            }
-                        }, {
-                    e ->
-                    Logger.e(e, "Not success.")
-                    listViews.showErrorView()
-                }
-                )
+        }
     }
 
     private fun addAllAndNotify(elements : List<Item>) {

@@ -14,8 +14,8 @@ import butterknife.ButterKnife
 import com.shortstack.hackertracker.Application.App
 import com.shortstack.hackertracker.Event.FavoriteEvent
 import com.shortstack.hackertracker.Event.RefreshTimerEvent
-import com.shortstack.hackertracker.Model.Item
 import com.shortstack.hackertracker.Model.ItemViewModel
+import com.shortstack.hackertracker.Model.ScheduleItem
 import com.shortstack.hackertracker.R
 import com.squareup.otto.Subscribe
 import kotlinx.android.synthetic.main.row_item.view.*
@@ -76,7 +76,7 @@ class ItemView : CardView {
         addView(view)
     }
 
-    fun setItem(item : Item) {
+    fun setItem(item : ScheduleItem) {
         content = ItemViewModel(item)
         renderItem()
     }
@@ -186,8 +186,8 @@ class ItemView : CardView {
         progress!!.progressDrawable.setColorFilter(allColors[position], PorterDuff.Mode.SRC_IN)
 
         if (mDisplayMode == DISPLAY_MODE_FULL) {
-            val types = App.application.databaseController.types
-            rootView.category_text!!.text = types[position].type
+//            val types = App.application.databaseController.types
+//            rootView.category_text!!.text = types[position].type
         }
     }
 
@@ -214,8 +214,8 @@ class ItemView : CardView {
     }
 
     fun onBookmarkClick() {
-        val databaseController = App.application.databaseController
-        databaseController.toggleBookmark(databaseController.writableDatabase, content!!.item)
+        //val databaseController = App.application.databaseController
+        //databaseController.toggleBookmark(databaseController.writableDatabase, content!!.item)/
     }
 
     companion object {

@@ -1,5 +1,7 @@
 package com.shortstack.hackertracker.Model
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import android.content.ContentValues
 import android.text.TextUtils
 import com.crashlytics.android.Crashlytics
@@ -15,8 +17,10 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Entity
 class Item : Serializable {
 
+    @PrimaryKey(autoGenerate = false)
     val index : Int = 0
     @SerializedName("entry_type")
     val type : String? = null

@@ -1,5 +1,7 @@
 package com.shortstack.hackertracker.Model
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -7,17 +9,19 @@ data class Speakers(
         val speakers: Array<Speaker>
 )
 
+@Entity(tableName = "speakers")
 data class Speaker(
 
         @SerializedName("sptitle")
-        val title: String,
+        var title: String? = null,
         @SerializedName("who")
-        val name: String,
+        var name: String? = null,
+        @PrimaryKey
         @SerializedName("indexsp")
-        val id: Int,
-        val lastUpdate: String,
-        val media: String,
-        val bio: String
+        var id: Long = 0,
+        var lastUpdate: String? = null,
+        var media: String? = null,
+        var bio: String? = null
 
 ) : Serializable
 

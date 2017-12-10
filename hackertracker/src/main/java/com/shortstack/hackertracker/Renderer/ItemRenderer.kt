@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.pedrogomez.renderers.Renderer
 import com.shortstack.hackertracker.BottomSheet.ScheduleItemBottomSheetDialogFragment
-import com.shortstack.hackertracker.Model.Item
+import com.shortstack.hackertracker.Model.ScheduleItem
 import com.shortstack.hackertracker.R
 import kotlinx.android.synthetic.main.row.view.*
 
-class ItemRenderer : Renderer<Item>(), View.OnClickListener {
+class ItemRenderer : Renderer<ScheduleItem>(), View.OnClickListener {
 
     override fun inflate(inflater: LayoutInflater, parent: ViewGroup): View {
         return inflater.inflate(R.layout.row, parent, false)

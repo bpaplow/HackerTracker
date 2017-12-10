@@ -12,6 +12,3 @@ data class Types(
 
 ) : Serializable
 
-data class Type(
-        @SerializedName("event_type")
-        var type : String)
