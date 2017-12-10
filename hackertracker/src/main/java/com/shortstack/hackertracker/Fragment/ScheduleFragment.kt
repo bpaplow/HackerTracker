@@ -155,16 +155,25 @@ class ScheduleFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ListV
     fun showFilters() {
         val filter = App.application.storage.filter
 
-        val view = FilterView(context, filter)
-        MaterialAlert.create(context)
-                .setTitle(getString(R.string.alert_filter_title)).
-                setView(view)
-                .setBasicNegativeButton()
-                .setPositiveButton(R.string.save, DialogInterface.OnClickListener { _, _ ->
-                    val filter = view.save()
-                    App.application.analyticsController.tagFiltersEvent(filter)
-                    refreshContents()
-                }).show()
+        App.application.database.apply {
+            typeDao().getTypes()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { types ->
+                        val view = FilterView(context, types, filter)
+                        MaterialAlert.create(context)
+                                .setTitle(getString(R.string.alert_filter_title)).
+                                setView(view)
+                                .setBasicNegativeButton()
+                                .setPositiveButton(R.string.save, DialogInterface.OnClickListener { _, _ ->
+                                    val filter = view.save()
+                                    App.application.analyticsController.tagFiltersEvent(filter)
+                                    refreshContents()
+                                }).show()
+                    }
+        }
+
+
     }
 
 
