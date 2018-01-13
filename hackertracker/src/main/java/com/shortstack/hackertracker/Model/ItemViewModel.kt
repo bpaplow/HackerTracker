@@ -33,8 +33,8 @@ class ItemViewModel(val item : ScheduleItem) {
             if (TextUtils.isEmpty(item.type))
                 return EMPTY_CATEGORY
 
-//            val types = App.application.databaseController.types
-
+//            val types = App.application.database.types
+//
 //            for (i in types.indices) {
 //                if (item.type == types[i].type)
 //                    return i

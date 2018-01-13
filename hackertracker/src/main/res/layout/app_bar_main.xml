@@ -35,6 +35,15 @@
 
     </FrameLayout>
 
+
+    <FrameLayout
+        android:id="@+id/filters"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:visibility="gone"/>
+
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/filter"
         android:layout_width="wrap_content"

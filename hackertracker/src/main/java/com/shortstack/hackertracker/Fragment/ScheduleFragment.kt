@@ -1,6 +1,5 @@
 package com.shortstack.hackertracker.Fragment
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -13,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.orhanobut.logger.Logger
-import com.shortstack.hackertracker.Alert.MaterialAlert
 import com.shortstack.hackertracker.Application.App
 import com.shortstack.hackertracker.Common.Constants
 import com.shortstack.hackertracker.Event.RefreshTimerEvent
@@ -25,7 +23,6 @@ import com.shortstack.hackertracker.Network.DatabaseService
 import com.shortstack.hackertracker.Network.FullResponse
 import com.shortstack.hackertracker.Network.SyncRepository
 import com.shortstack.hackertracker.R
-import com.shortstack.hackertracker.View.FilterView
 import com.squareup.otto.Subscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -44,7 +41,7 @@ class ScheduleFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ListV
         override fun handleMessage(msg : Message) {
             App.application.postBusEvent(RefreshTimerEvent())
             if (adapter != null) {
-                adapter!!.notifyTimeChanged()
+                adapter.notifyTimeChanged()
             }
 
         }
@@ -114,7 +111,7 @@ class ScheduleFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ListV
             }
 
         })
-        rootView.list!!.adapter = adapter
+        rootView.list.adapter = adapter
 
 
         return rootView
@@ -153,26 +150,38 @@ class ScheduleFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ListV
         get() = R.layout.fragment_schedule
 
     fun showFilters() {
-        val filter = App.application.storage.filter
 
-        App.application.database.apply {
-            typeDao().getTypes()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { types ->
-                        val view = FilterView(context, types, filter)
-                        MaterialAlert.create(context)
-                                .setTitle(getString(R.string.alert_filter_title)).
-                                setView(view)
-                                .setBasicNegativeButton()
-                                .setPositiveButton(R.string.save, DialogInterface.OnClickListener { _, _ ->
-                                    val filter = view.save()
-                                    App.application.analyticsController.tagFiltersEvent(filter)
-                                    refreshContents()
-                                }).show()
-                    }
-        }
 
+        // previously invisible view
+
+
+
+
+//        val filter = App.application.storage.filter
+//
+//        val types = Array(18, {Type(0, "Type")}).toList()
+//
+////        App.application.database.apply {
+////            typeDao().getTypes()
+////                    .subscribeOn(Schedulers.io())
+////                    .observeOn(AndroidSchedulers.mainThread())
+////                    .subscribe { types ->
+//                        Logger.e("Creating filter view.")
+//                        val view = FilterView(context, types, filter)
+//                        Logger.e("View created.")
+//                        MaterialAlert.create(context)
+//                                .setTitle(getString(R.string.alert_filter_title))
+//                                .setView(view)
+//                                .setBasicNegativeButton()
+//                                .setPositiveButton(R.string.save, DialogInterface.OnClickListener { _, _ ->
+//                                    val filter = view.save()
+//                                    App.application.analyticsController.tagFiltersEvent(filter)
+//                                    refreshContents()
+//                                }).show()
+//                        Logger.e("Dialog created and shown.")
+////                    }
+////        }
+//
 
     }
 

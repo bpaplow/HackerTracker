@@ -6,6 +6,8 @@ import com.shortstack.hackertracker.Application.App
 import com.shortstack.hackertracker.Model.*
 import com.shortstack.hackertracker.Network.RoomSyncResponse
 import com.shortstack.hackertracker.fromJsonFile
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by Chris on 12/8/2017.
@@ -46,6 +48,18 @@ abstract class MyDatabase : RoomDatabase() {
             speakerDao().insert(speaker)
         }
     }
+
+    fun setTypes() {
+        typeDao().getTypes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    types = it
+                })
+    }
+
+    lateinit var types : List<Type>
+
 
     companion object {
         private val SCHEDULE_FILE = "schedule-full.json"

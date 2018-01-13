@@ -186,8 +186,8 @@ class ItemView : CardView {
         progress!!.progressDrawable.setColorFilter(allColors[position], PorterDuff.Mode.SRC_IN)
 
         if (mDisplayMode == DISPLAY_MODE_FULL) {
-//            val types = App.application.databaseController.types
-//            rootView.category_text!!.text = types[position].type
+            val types = App.application.database.types
+            rootView.category_text!!.text = types[position].type
         }
     }
 

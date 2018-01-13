@@ -1,10 +1,15 @@
 package com.shortstack.hackertracker.Model
 
+import android.annotation.SuppressLint
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.shortstack.hackertracker.Application.App
 import java.io.Serializable
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by Chris on 12/8/2017.
@@ -45,4 +50,21 @@ data class ScheduleItem(
 
     val isBookmarked
         get() = bookmarked == 1
+
+
+//    val beginDateObject : Date by lazy { getDateObject(begin) }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun getDateObject(dateStr : String?) : Date {
+        val readFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+
+        var date : Date = App.getCurrentDate()
+        try {
+            date = readFormat.parse(dateStr)
+        } catch (e : ParseException) {
+            e.printStackTrace()
+        }
+
+        return date
+    }
 }

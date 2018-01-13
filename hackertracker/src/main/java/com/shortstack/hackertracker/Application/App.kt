@@ -75,6 +75,7 @@ class App : Application() {
 
         Single.fromCallable {
             database.createDatabase()
+            database.setTypes()
         }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
