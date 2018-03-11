@@ -18,11 +18,12 @@ android {
     buildTypes {
         debug {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            minifyEnabled true
         }
 
         release {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             minifyEnabled true
-            useProguard false
         }
     }
     flavorDimensions "versionCode"
