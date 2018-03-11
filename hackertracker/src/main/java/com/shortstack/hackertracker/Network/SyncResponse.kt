@@ -4,9 +4,5 @@ import com.google.gson.annotations.SerializedName
 import com.shortstack.hackertracker.models.Item
 
 data class SyncResponse(
-
-    @SerializedName("update_date")
-    val updatedDate : String,
-    val schedule: Array<Item>
-
-)
+        @SerializedName("update_date") val updatedDate: String,
+        @SerializedName("schedule") val schedule: Array<Item>)

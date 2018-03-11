@@ -17,42 +17,34 @@ import java.util.*
 
 class Item : Serializable {
 
-    val index : Int = 0
-    @SerializedName("entry_type")
-    val type : String? = null
+    @SerializedName("index") val index : Int = 0
+    @SerializedName("entry_type") val type : String? = null
+    @SerializedName("title")val title : String? = null
+    @SerializedName("who") val speakers : Array<Speaker>? = null
 
-    val title : String? = null
 
-    @SerializedName("who")
-    val speakers : Array<Speaker>? = null
+    @SerializedName("description") val description : String? = null
 
-    val description : String? = null
+    @SerializedName("start_date") val begin : String? = null
+    @SerializedName("end_date") val end : String? = null
 
-    @SerializedName("start_date")
-    val begin : String? = null
-    @SerializedName("end_date")
-    val end : String? = null
-
-    val location : String? = null
-    val link : String? = null
+    @SerializedName("location")val location : String? = null
+    @SerializedName("link")val link : String? = null
     private val dctvChannel : String? = null
-    private val includes : String? = null
+    @SerializedName("includes")private val includes : String? = null
 
-    @SerializedName("updated_at")
-    var updatedAt : String = ""
+    @SerializedName("updated_at") var updatedAt : String = ""
 
 
     // State
     //private int isNew;
-    @SerializedName("bookmarked")
-    private var isBookmarked : Int = 0
+    @SerializedName("bookmarked") private var isBookmarked : Int = 0
 
     val date : String
         get() = begin!!.substring(0, 11)
 
 
     // State
-
     val isTool : Boolean
         get() = includes != null && includes.contains("Tool")
 

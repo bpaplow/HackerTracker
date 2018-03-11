@@ -4,14 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class Types(
-        @SerializedName("event_types")
-        var types : Array<Type>,
-        @SerializedName("update_date")
-        var date : String
+        @SerializedName("event_types") var types: Array<Type>,
+        @SerializedName("update_date") var date: String) : Serializable
 
-
-) : Serializable
-
-data class Type(
-        @SerializedName("event_type")
-        var type : String)
+data class Type(@SerializedName("event_type") var type: String)
