@@ -20,24 +20,29 @@
 #-keep class android.support.** { *; }
 #-keep interface android.support.** { *; }
 
-# Retrofit 2.X
-## https://square.github.io/retrofit/ ##
 
--dontwarn retrofit2.**
--keep class retrofit2.** { *; }
+# Preserve annotations, line numbers, and source file names
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+
+-keep class com.shortstack.hackertracker.models.** { *; }
+-keep class com.shortstack.hackertracker.Network.** { *; }
+
+
+# Retrofit
+-dontwarn retrofit.**
+-keep class retrofit.** { *; }
+-keep class package.with.model.classes.** { *; }
+-keepclassmembernames interface * {
+    @retrofit.http.* <methods>;
+}
 -keepattributes Signature
 -keepattributes Exceptions
--renamesourcefileattribute ProGuard
--keepattributes SourceFile,LineNumberTable
 
--keepclasseswithmembers class * {
-    @retrofit2.http.* <methods>;
-}
 -dontwarn okio.**
-
-
--keep class org.apache.log4j.** { *; }
--dontwarn org.apache.**
 
 
 # Parceler configuration
